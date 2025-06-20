@@ -3,27 +3,45 @@ import threading
 import time 
 
 
-q = queue.Queue(10)#buffer não foi especificado, isso pode causar muitos erros de memoria no futuro
+q = queue.Queue()#buffer não foi especificado, isso pode causar muitos erros de memoria no futuro
 
 def line():
     for c in range(20):
         q.put("dados"+str(c)) #inserindo valores dentro da fila FIFO
-    
+    #q.task_done()
+    #q.task_done()
 
 def printingout():
-    for c in range(20):
-        time.sleep(1)
-        print(q.get())
+    #for c in range(20):
+    while True:
+        #time.sleep(1)
+        datas = q.get()
+        print(datas)
+
+        if(datas is ""):
+            q.task_done()
+            break
+
+
+    #q.join()
+
 
 th = threading.Thread(target=line)
 #th2 = threading.Thread(target=printingout)
-th2 = threading.Thread(target=printingout)
+th2 = threading.Thread(target=printingout, daemon=True)
+th3 = threading.Thread(target=printingout,daemon=True)
 th.start()
 #th2.start()
 th2.start()
+th3.start()
 
-th.join()
+#th.join()
+q.put("")
+q.put("")
 th2.join()
+th3.join()
+
+#q.put(None)
 #th2.join()
 
 """
