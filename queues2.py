@@ -5,13 +5,13 @@ import time
 
 q = queue.Queue()#buffer não foi especificado, isso pode causar muitos erros de memoria no futuro
 
-def line():
+def line(): #produtor, ele vai gerar os dados e colocar dentro da fila para serem transferidos da memoria
     for c in range(20):
         q.put("dados"+str(c)) #inserindo valores dentro da fila FIFO
     #q.task_done()
     #q.task_done()
 
-def printingout():
+def printingout(): # consumidor, ele vai consumir os dados e fazer o processamentos dos dados
     #for c in range(20):
     while True:
         #time.sleep(1)
