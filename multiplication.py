@@ -4,7 +4,7 @@ import queue
 
 queues = queue.Queue()
 locking = threading.Lock()
-sempahore = threading.Semaphore(2)
+sempahore = threading.Semaphore(1)
 
 def worker(numbers:list,multiplicatedfor:int):
     for number in numbers:
