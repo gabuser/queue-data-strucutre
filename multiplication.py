@@ -1,5 +1,4 @@
 import threading
-import time 
 import queue
 
 queues = queue.Queue()
@@ -17,18 +16,18 @@ def consumer(thread_id:list):
     showing = queues.get()
     if(not queues.empty()):
         with locking:
-            time.sleep(1)
             print(f'\n result of the multiplication of the thrad{thread_id}:{showing}')
 
 thread = list()
 
-for ids in range(21):
+for _ in range(1):
     workers = threading.Thread(target=worker, args=([c for c in range(21)],2,))
-    consumers = threading.Thread(target=consumer,args=(ids,))
     workers.start()
-    consumers.start()
-
     thread.append(workers)
+
+for ids in range(21):
+    consumers = threading.Thread(target=consumer,args=(ids,))
+    consumers.start()
     thread.append(consumers)
 
 for threads in thread:
