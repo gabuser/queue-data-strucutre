@@ -31,7 +31,6 @@ def main():
     
     for _ in range(21):
         queues.put(None)
-        
     for _ in range(21):
         consumers = threading.Thread(target=consumer, args=(2,))
         threads.append(consumers)
@@ -48,7 +47,7 @@ def main():
         yield chunk #yield que retorna aos poucos 
     
 for c in main():
-    print(c)
+    pass
 
 """
 
