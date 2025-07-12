@@ -13,10 +13,11 @@ def worker(numbers:list,multiplicatedfor:int):
         queues.put(result)
 
 def consumer(thread_id:list):
-    showing = queues.get()
-    if(not queues.empty()):
-        with locking:
-            print(f'\n result of the multiplication of the thrad{thread_id}:{showing}')
+    with sempahore:
+        showing = queues.get()
+        if(not queues.empty()):
+            with locking:
+                print(f'\n result of the multiplication of the thrad{thread_id}:{showing}')
 
 thread = list()
 
