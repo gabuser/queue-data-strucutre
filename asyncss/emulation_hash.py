@@ -21,6 +21,7 @@ async def getting():
 
 async def hashing():
     async for hashi in getting():
+        await asyncio.sleep(1)
         print(f"\n {sha256(hashi).hexdigest()}")
         queue.task_done()
 
