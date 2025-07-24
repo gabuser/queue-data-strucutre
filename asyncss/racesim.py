@@ -11,10 +11,10 @@ async def racers():
     global stop, runners
     while stop:
         await asyncio.sleep(1)
-        runned = random.randint(0,50)
+        runned = random.randint(0,5)
         await queues.put(runned)
 
-        if(runned == 50):
+        if(runned == 5):
             #queues.task_done()
             for c in range(1):
                 await queues.put(None)
@@ -33,12 +33,14 @@ async def running():
             distance = await queues.get()
             #await asyncio.sleep(1)
             runners = names[b]
+            corroutines = corroutine[b]
             print(distance)
             #print(runners)
             
             if(distance is None):
 
                 print(f"the runner {runners} won")
+                print(corroutines)
                 queues.task_done()
                 condition = False
                 #queues.task_done()
@@ -52,7 +54,7 @@ async def main():
     for a in range(6):
         corroutine.append(racers())
         names.append(f"runner {a}")
-    #print(corroutine)
+    print(corroutine)
     d = asyncio.gather(*corroutine, running())
     await d
 
