@@ -27,10 +27,10 @@ async def producer(lenght, ids:str,semaphores:object):
                 #print(f'\n working {ids} ')
         
         except StopIteration:
-            print(True)
+            #print(True)
             break
 
-async def consumers(consumersids:str,semaphores:object):
+async def consumers(semaphores:object):
     global counter
 
     while True:
@@ -45,15 +45,22 @@ async def consumers(consumersids:str,semaphores:object):
 
                 async with locks:
                     counter+=1 
-                #print(f'consumer woker {consumersids} has finished')
+
                 await queues2.put(recived)
+                
+                if(counter == 20):
+                    #counter+=1
+                    await queues2.put(None)
+            
+            #await queues2.put(recived)
 
 async def outputing():
-    #global lists
+    global counter
 
     while True:
         writing = await queues2.get()
         #print(writing)
+        
         if(writing is None):
             break
             #lists.append(writing)
@@ -81,15 +88,12 @@ async def main():
     #await queues2.put(None)
 
     for consuming in range(4):
-        consumer.append(consumers(consuming, semaphore))
+        consumer.append(consumers(semaphore))
     
     await asyncio.gather(*consumer)
-
-    await queues2.put(None)
+    
     task3 = outputing()
-    #await queues2.put(None)
     await task3
-    #await queues2.put(None)
 
 asyncio.run(main())
 
