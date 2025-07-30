@@ -38,7 +38,7 @@ async def consumers(consumersids:str,semaphores:object):
             recived = await queues.get()
 
             if(recived is None):
-                await queues2.put(None)
+                #await queues2.put(None)
                 break
 
             else:
@@ -85,7 +85,7 @@ async def main():
     
     await asyncio.gather(*consumer)
 
-    #await queues2.put(None)
+    await queues2.put(None)
     task3 = outputing()
     #await queues2.put(None)
     await task3
